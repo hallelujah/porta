@@ -1,16 +1,49 @@
-;(function($) {
+;(function($) {
+
+  function toggleBulkSelectDropdown () {
+    const menu = document.querySelector('.pf-m-bulk-select ul.pf-c-dropdown__menu')
+
+    if (menu.getAttribute('hidden') !== null) {
+      menu.removeAttribute('hidden')
+    } else {
+      menu.setAttribute('hidden', true)
+    }
+  }
 
   var handle_checkboxes = function () {
     var table = $('table'),
         selectTotalEntries = $('#bulk-operations a.select-total-entries');
 
-    // select all checkbox
-    table.find('thead .select .select-all').live('change', function(){
-      $(this).closest('table').
-        find('tbody .select input[type=checkbox]').
-        attr('checked', $(this).is(':checked')).
-        trigger('change');
+    const selectAllCheckbox = document.querySelector('thead .select .select-all') // For legacy tables
+      || document.querySelector('#results_list .pf-c-toolbar #select-all-check') // For Patternfly tables
+
+    $(selectAllCheckbox)
+      .live('change', function () {
+        $('tbody .select input[type=checkbox]')
+          .attr('checked', selectAllCheckbox.checked)
+          .trigger('change');
+      });
+
+    // Only PF4 tables
+    const selectAllMenu = document.getElementById('select-all-menu')
+    selectAllMenu?.addEventListener('click', () => {
+      if (!selectAllCheckbox.checked) {
+        selectAllCheckbox.dispatchEvent(new MouseEvent('click'))
+      }
+      toggleBulkSelectDropdown()
     });
+
+    // Only PF4 tables
+    const selectNoneMenu = document.getElementById('select-none-menu')
+    selectNoneMenu?.addEventListener('click', () => {
+      if (selectAllCheckbox.checked) {
+        selectAllCheckbox.dispatchEvent(new MouseEvent('click'))
+      } else {
+        document.querySelectorAll('tbody tr.selected .pf-c-table__check input')
+          .forEach(checkbox => { checkbox.dispatchEvent(new MouseEvent('click')) })
+      }
+      toggleBulkSelectDropdown()
+    })
 
     // single checkbox
     table.find('tbody .select input[type=checkbox]').live('change', function(){
@@ -25,6 +58,19 @@
       }
 
       var selected = row.closest('tbody, table').find('.selected').length;
+
+      // Only PF4 tables
+      const bulkSelectText = document.getElementById('toolbar-item-bulk-select-text')
+      if (bulkSelectText) {
+        if (selected > 0) {
+          bulkSelectText.hidden = false
+          bulkSelectText.innerText = `${selected} selected`
+        } else {
+          bulkSelectText.hidden = true
+        }
+
+        // TODO: depending on how many items there are and how many are selected, set or unset checkbox.indeterminate
+      }
 
       if(selected > 0) {
         // show bulk operations section
@@ -121,10 +167,28 @@
     });
   }
 
+  var handle_dropdown_toggle = function () {
+    // Only PF4 tables
+    const toggle = document.querySelector('.pf-m-bulk-select button.pf-c-dropdown__toggle-button')
+
+    if (!toggle) {
+      return
+    }
+
+    toggle.addEventListener('click', toggleBulkSelectDropdown)
+    document.addEventListener('click', (event) => {
+      if (!toggle.contains(event.target)) {
+        const menu = document.querySelector('.pf-m-bulk-select ul.pf-c-dropdown__menu')
+        menu.setAttribute('hidden', true)
+      }
+    })
+  }
+
   $(function(){
     prepare_operations();
     handle_checkboxes();
     handle_selectTotalEntries();
+    handle_dropdown_toggle();
   });
 
 })(jQuery);

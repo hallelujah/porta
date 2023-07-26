@@ -2,12 +2,43 @@
 - create_account_path = current_account.master? ? new_provider_admin_account_path : new_admin_buyers_account_path
 
 div class="pf-c-card"
+  div class="pf-c-toolbar"
+    div class="pf-c-toolbar__content"
+      div class="pf-c-toolbar__content-section pf-m-nowrap"
+        div class="pf-c-toolbar__group pf-m-toggle-group pf-m-show-on-md"
+          div class="pf-c-toolbar__toggle"
+            button class="pf-c-button pf-m-plain" type="button" aria-label="Show filters" aria-expanded="false" aria-controls="-expandable-content"
+              i class="fas fa-filter" aria-hidden="true"
+
+          = render partial: 'shared/toolbar_item_bulk_select'
+
+          = search_form(@search, html: { class: 'pf-c-toolbar__group' }) do |s|
+            div class="pf-c-toolbar__item pf-m-search-filter"
+              div class="pf-c-text-input-group"
+                div class="pf-c-text-input-group__main pf-m-icon"
+                  span class="pf-c-text-input-group__text"
+                    span class="pf-c-text-input-group__icon"
+                      i class="fas fa-fw fa-search"
+                    = s.text_field :query, size: 20, class: 'pf-c-text-input-group__text-input', placeholder: 'Filter'
+              button class="pf-c-button pf-m-control" type="submit" aria-label="Search"
+                i class="fas fa-arrow-right" aria-hidden="true"
+
+            div class="pf-c-toolbar__group pf-m-filter-group"
+              = s.toolbar_select :plan_id, @account_plans, :id, :name, title: 'Plan'
+              = s.toolbar_select :state, account_states_for_select, :id, :name, title: 'State'
+
+          div class="pf-c-toolbar__content-section pf-m-button-group"
+            - if can?(:create, Account)
+              div class="pf-c-toolbar__item"
+                = link_to 'Create account', create_account_path, class: 'pf-c-button pf-m-primary'
+            - if params.key?(:search)
+              div class="pf-c-toolbar__item"
+                = link_to 'Clear all filters', url_for, class: 'pf-c-button pf-m-link', type: 'button'
+
   table class="pf-c-table pf-m-grid-lg" role="grid" id="buyer_accounts" aria-label="Accounts table"
     thead
       tr role="row"
-        td role="columnheader" scope="col" class="select pf-c-table__check"
-          label
-            = bulk_select_all
+        td role="columnheader" scope="col"
         = th_sortable('org_name', 'Group/Org.')
         th role="columnheader" scope="col"
           | Admin
@@ -19,32 +50,6 @@ div class="pf-c-card"
             | Apps
         = th_sortable('state', 'State')
         th role="columnheader" scope="col" class="actions pf-m-fit-content"
-          - if can?(:create, Account)
-            = link_to 'Create', create_account_path, title: 'Create new account', class: 'action add'
-
-      tr role="row" class="search"
-        td
-        = search_form do |s|
-          th role="columnheader" scope="col" colspan="3"
-            = s.text_field :query, value: search_query_value,
-                                   size: 20,
-                                   class: :query,
-                                   placeholder: 'Search for Group/Org., User login, First name, Last name, email, user_key, app_id or Application Name.'
-          - if account_plans_size > 1
-            th role="columnheader" scope="col"
-              = s.collection_select :plan_id, @account_plans,
-                                              :id, :name,
-                                              { include_blank: true },
-                                              { class: :account_plans }
-
-          - if can?(:see, :multiple_applications)
-            th role="columnheader" scope="col"
-          th role="columnheader" scope="col"
-            = s.select :state, account_states_for_select,
-                               { include_blank: true, selected: @search.state },
-                               { class: :state }
-          th role="columnheader" scope="col" class="pf-m-fit-content"
-            = s.button 'Search', name: nil, class: "pf-c-button pf-m-primary"
 
     tbody role="rowgroup"
       - accounts.each do |account|

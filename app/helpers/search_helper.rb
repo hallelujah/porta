@@ -1,12 +1,7 @@
 module SearchHelper
-
-  def search_query_value
-    params[:search].respond_to?(:[]) && params[:search][:query] ? params[:search][:query] : nil
-  end
-
-  def search_form(data = @search)
+  def search_form(data, html: {})
     form_for(data, as: :search, url: search_path, builder: ThreeScale::Search::FormBuilder,
-             html: {method: :get, class: :search}) do |search|
+             html: {method: :get, class: :search}.merge(html)) do |search|
 
       [:per_page, :direction, :sort].each do |key|
         next unless params[key]

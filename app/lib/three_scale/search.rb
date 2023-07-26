@@ -13,6 +13,22 @@ class ThreeScale::Search < ActiveSupport::HashWithIndifferentAccess
 
       @template.fields_for(record_name, record_object, fields_options, &block)
     end
+
+    def toolbar_select(method, collection, value_method, text_method, title: collection.model_name.human)
+      @template.content_tag(:div, class: 'pf-c-toolbar__item') do
+        @template.render(layout: 'shared/toolbar_item_select',
+                         locals: {
+                           collection: collection,
+                           method: method,
+                           text_method: text_method,
+                           title: title,
+                           value_method: value_method,
+                           selected_value: @object.send(method)
+                         }) do
+          hidden_field(method)
+        end
+      end
+    end
   end
 
   def initialize(params = nil)

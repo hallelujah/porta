@@ -40,7 +40,7 @@ module AccountHelper
   def account_states_for_select
     states = %w[approved pending rejected]
     states << 'suspended' if current_account == Account.master
-    options = states.map { |state| [state.titleize, state] }
+    states.map { |state| OpenStruct.new({ name: state.titleize, id: state }) } # rubocop:disable Style/OpenStructUse
   end
 
   def account_states_info(account)

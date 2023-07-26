@@ -20,7 +20,7 @@
       </th>
     </tr>
     <tr role="row" class="search">
-      <%= search_form do |s| %>
+      <%= search_form(@search) do |s| %>
         <th role="columnheader" scope="col" colspan="2">
           <%= s.fields_for :account do |account_search| %>
             <%= account_search.text_field :query, class: :query, placeholder: 'search for accounts and applications' %>

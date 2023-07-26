@@ -1,0 +1,59 @@
+- select_id = "select-#{method}"
+- toggle_id = "select-#{method}-toggle"
+- select_label_id = "select-#{method}-label"
+
+div class="pf-c-select" id=select_id
+  = yield
+  span id=select_label_id hidden="true" Choose one
+
+  button class="pf-c-select__toggle" type="button" id=toggle_id aria-haspopup="true" aria-expanded="false" aria-labelledby="#{select_label_id} select-single-toggle"
+    div class="pf-c-select__toggle-wrapper"
+      span class="pf-c-select__toggle-text"
+        = title
+    span class="pf-c-select__toggle-arrow"
+      i class="fas fa-caret-down" aria-hidden="true"
+
+  ul class="pf-c-select__menu" role="listbox" aria-labelledby=select_label_id hidden="true"
+    - for option in collection
+      - value = option.send(value_method)
+      - selected = value == selected_value
+      li role="presentation"
+        button class="pf-c-select__menu-item #{selected ? 'pf-m-selected' : ''}" role="option" type="button" data-value=value
+          = option.send(text_method)
+          - if selected
+            span class="pf-c-select__menu-item-icon"
+              i class="fas fa-check" aria-hidden="true"
+
+javascript:
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById("#{select_id}")
+    const menu = select.querySelector('ul')
+    const hiddenInput = select.querySelector('input[type="hidden"]')
+
+    document.getElementById("#{toggle_id}")
+      .addEventListener('click', (event) => {
+        select.classList.toggle('pf-m-expanded')
+
+        if (menu.getAttribute('hidden') !== null) {
+          menu.removeAttribute('hidden')
+        } else {
+          menu.setAttribute('hidden', true)
+        }
+      })
+
+    select.querySelectorAll('.pf-c-select__menu-item')
+      .forEach(button => {
+        button.addEventListener('click', () => {
+          const value = button.getAttribute('data-value')
+          hiddenInput.value = value
+          document.forms['new_search'].submit()
+        })
+      })
+
+    document.addEventListener('click', (event) => {
+      if (!select.contains(event.target)) {
+        menu.setAttribute('hidden', true)
+        select.classList.remove('pf-m-expanded')
+      }
+    })
+  })

@@ -62,7 +62,15 @@ textarea {
 }
 
 // TODO: where is this applied and why isn't it wrapper around form?
-button:not(.pf-c-button, .pf-c-nav__link, .pf-c-dropdown__menu-item, .pf-c-select__menu-item) {
+button:not(
+  .pf-c-button,
+  .pf-c-nav__link,
+  .pf-c-dropdown__menu-item,
+  .pf-c-select__menu-item,
+  .pf-c-dropdown__toggle,
+  .pf-c-dropdown__toggle-button,
+  .pf-c-select__toggle
+) {
   min-width: line-height-times(2);
   width: auto;
 }

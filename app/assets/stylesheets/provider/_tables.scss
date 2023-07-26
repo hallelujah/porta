@@ -224,3 +224,8 @@ td.StatsMethodsTable-name {
 .pf-c-table form.search {
   display: none;
 }
+
+// Make search filter wider in table toolbar
+.pf-c-toolbar__item.pf-m-search-filter {
+  --pf-c-toolbar__item--Width: 300px;
+}
