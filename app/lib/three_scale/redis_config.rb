@@ -6,6 +6,7 @@ module ThreeScale
       raw_config = (redis_config || {}).symbolize_keys
       sentinels = raw_config.delete(:sentinels).presence
       raw_config.delete_if { |key, value| value.blank? }
+      update_pool_size(raw_config)
 
       @config = ActiveSupport::OrderedOptions.new.merge(raw_config)
       config.sentinels = parse_sentinels(sentinels) if sentinels
@@ -69,6 +70,12 @@ module ThreeScale
         parsed_sentinel[:password] = password if password
         parsed_sentinel
       end
+    end
+
+    def update_pool_size(config)
+      return if config[:size].present?
+
+      config[:size] = config.delete(:pool_size) if config.key?(:pool_size)
     end
 
     def next_db
