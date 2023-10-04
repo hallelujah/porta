@@ -51,11 +51,11 @@ gem '3scale_time_range', '0.0.6'
 gem 'statsd-ruby', require: false
 
 # Sidekiq
-gem 'sidekiq', '~> 7.1.5', require: %w[sidekiq sidekiq/web]
-gem 'sidekiq-batch'
+gem 'sidekiq', '~> 7', require: %w[sidekiq sidekiq/web]
+gem 'sidekiq-batch', github: '3scale/sidekiq-batch', branch: 'redis-client'
 gem 'sidekiq-cron', require: %w[sidekiq/cron sidekiq/cron/web]
 gem 'sidekiq-lock'
-gem 'sidekiq-throttled'
+gem 'sidekiq-throttled', '~> 1.0.0.alpha.1'
 
 gem 'sidekiq-prometheus-exporter'
 
