@@ -39,11 +39,13 @@ GIT
 
 GIT
   remote: https://github.com/3scale/sidekiq-batch.git
-  revision: 52c78eef9e0da5f70e71345d6139de26fcdd287d
+  revision: da79c4332f9db464db9c09a7bca30f4a2631520c
   branch: redis-client
   specs:
     sidekiq-batch (0.1.9)
-      sidekiq (>= 3)
+      hiredis-client (~> 0.17.0)
+      redis (~> 5)
+      sidekiq (~> 7)
 
 GIT
   remote: https://github.com/3scale/swagger-ui_rails.git
@@ -391,7 +393,8 @@ GEM
     hashdiff (1.0.1)
     hashery (2.1.2)
     hashie (3.6.0)
-    hiredis (0.6.3)
+    hiredis-client (0.17.0)
+      redis-client (= 0.17.0)
     html-pipeline (2.12.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
@@ -654,7 +657,8 @@ GEM
       actionview (>= 5)
     recursive-open-struct (1.1.3)
     redcarpet (3.5.1)
-    redis (4.2.5)
+    redis (5.0.7)
+      redis-client (>= 0.9.0)
     redis-client (0.17.0)
       connection_pool
     redis-namespace (1.7.0)
@@ -918,7 +922,7 @@ GEM
       yabeda (~> 0.6)
     yard (0.9.27)
       webrick (~> 1.7.0)
-    zeitwerk (2.6.8)
+    zeitwerk (2.6.12)
     zip-zip (0.3)
       rubyzip (>= 1.0.0)
 
@@ -980,7 +984,7 @@ DEPENDENCIES
   formtastic (~> 4.0)
   github-markdown
   hashie
-  hiredis (~> 0.6.3)
+  hiredis-client
   html-pipeline
   htmlentities (~> 4.3, >= 4.3.4)
   httpclient!
@@ -1037,7 +1041,7 @@ DEPENDENCIES
   recaptcha (= 4.13.1)
   record_tag_helper (~> 1.0)
   redcarpet (~> 3.5.1)
-  redis (~> 4.2.0)
+  redis
   redis-namespace (~> 1.7.0)
   redlock
   reek (= 6.01)

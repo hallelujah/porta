@@ -95,7 +95,7 @@ gem 'acts-as-taggable-on', '~> 8.0'
 gem 'baby_squeel', '~> 1.4.3'
 gem 'browser'
 gem 'diff-lcs', '~> 1.2'
-gem 'hiredis', '~> 0.6.3'
+gem 'hiredis-client'
 gem 'httpclient', github: '3scale/httpclient', branch: 'ssl-env-cert'
 gem 'json-schema', git: 'https://github.com/3scale/json-schema.git'
 gem 'local-fastimage_resize', '~> 3.4.0', require: 'fastimage/resize'
@@ -108,7 +108,7 @@ gem 'ratelimit'
 gem 'recaptcha', '4.13.1', require: 'recaptcha/rails'
 gem 'redcarpet', '~>3.5.1', require: false
 gem 'RedCloth', '~>4.3', require: false
-gem 'redis', '~> 4.2.0', require: ['redis', 'redis/connection/hiredis']
+gem 'redis', require: ['redis']
 gem 'redis-namespace', '~> 1.7.0'
 gem 'rest-client', '~> 2.0.2'
 gem 'rubyzip', '~>1.3.0', require: false

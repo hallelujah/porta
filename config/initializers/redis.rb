@@ -2,7 +2,7 @@
 
 class Redis
   def self.new_with_namespace(options = {})
-    namespace = options[:namespace].presence
+    namespace = options.delete(:namespace).presence
     redis = new(options)
     namespace ? Redis::Namespace.new(namespace, redis: redis) : redis
   end
