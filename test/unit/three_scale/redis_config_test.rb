@@ -52,16 +52,16 @@ module ThreeScale
       config_1 = RedisConfig.new(host: 'localhost', db: 1)
       config_2 = RedisConfig.new(db: 2, password: 'passwd')
 
-      assert_equal({ host: 'localhost', db: 1, id: nil, password: 'passwd' }, config_1.reverse_merge(config_2))
-      assert_equal({ host: 'localhost', db: 1, id: nil }, config_1.config)
+      assert_equal({ host: 'localhost', db: 1, password: 'passwd' }, config_1.reverse_merge(config_2))
+      assert_equal({ host: 'localhost', db: 1 }, config_1.config)
     end
 
     test '#reverse_merge!' do
       config_1 = RedisConfig.new(host: 'localhost', db: 1)
       config_2 = RedisConfig.new(db: 2, password: 'passwd')
 
-      assert_equal({ host: 'localhost', db: 1, id: nil, password: 'passwd'}, config_1.reverse_merge!(config_2))
-      assert_equal({ host: 'localhost', db: 1, id: nil, password: 'passwd' }, config_1.config)
+      assert_equal({ host: 'localhost', db: 1, password: 'passwd'}, config_1.reverse_merge!(config_2))
+      assert_equal({ host: 'localhost', db: 1, password: 'passwd' }, config_1.config)
     end
 
     test 'sentinels' do
@@ -75,20 +75,11 @@ module ThreeScale
       assert_equal expected_sentinels, config.sentinels
     end
 
-    test 'sets redis client id to nil when id is not provided' do
-      config = RedisConfig.new(url: 'redis://my-redis/1')
+    test ':pool_size is renamed to :size' do
+      config = RedisConfig.new(pool_size: 5)
 
-      assert_nil config.id
-      assert config.key? :id
-    end
-
-    # The ID is forced to be nil to disable the default behavior in Sidekiq < 6
-    # which invokes CLIENT SETNAME command, which incompatible with some Redis providers
-    # see https://issues.redhat.com/browse/THREESCALE-9210
-    test 'sets redis client id to nil when id is set explicitly' do
-      config = RedisConfig.new(url: 'redis://my-redis/1', id: 'redis-client-name')
-      assert_nil config.id
-      assert config.key? :id
+      assert config.key? :size
+      assert_equal 5, config[:size]
     end
   end
 end
