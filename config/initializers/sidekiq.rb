@@ -12,7 +12,7 @@ Rails.application.config.to_prepare do
   Sidekiq.configure_server do |config|
     config.try(:reliable!)
 
-    config.redis = ThreeScale::RedisConfig.new(System::Application.config.sidekiq).config
+    config.redis = ThreeScale::SidekiqRedisConfig.new(System::Application.config.sidekiq).config
     config.error_handlers << System::ErrorReporting.method(:report_error)
 
     config.logger.formatter = Sidekiq::Logger::Formatters::Pretty.new
@@ -48,7 +48,7 @@ end
 
 Rails.application.config.to_prepare do
   Sidekiq.configure_client do |config|
-    config.redis = ThreeScale::RedisConfig.new(System::Application.config.sidekiq).config
+    config.redis = ThreeScale::SidekiqRedisConfig.new(System::Application.config.sidekiq).config
 
     config.client_middleware do |chain|
       chain.add ThreeScale::SidekiqLoggingMiddleware
