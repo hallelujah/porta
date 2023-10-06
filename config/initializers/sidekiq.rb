@@ -13,7 +13,7 @@ Rails.application.config.to_prepare do
     config.try(:reliable!)
 
     config.redis = ThreeScale::SidekiqRedisConfig.new(System::Application.config.sidekiq).config
-    config.error_handlers << System::ErrorReporting.method(:report_error)
+    config.error_handlers.replace([System::ErrorReporting.method(:report_sidekiq_error)])
 
     config.logger.formatter = Sidekiq::Logger::Formatters::Pretty.new
 
