@@ -4,4 +4,5 @@ production:
   pool_timeout: 5 # this is in seconds
   namespace: "<%= ENV['REDIS_NAMESPACE'] %>"
   sentinels: "<%= ENV['REDIS_SENTINEL_HOSTS'] %>"
+  name: "<%= ENV['REDIS_SENTINEL_NAME'] %>"
   role: <%= ENV['REDIS_SENTINEL_ROLE'] %>
