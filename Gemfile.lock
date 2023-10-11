@@ -991,7 +991,7 @@ DEPENDENCIES
   i18n
   inherited_resources (~> 1.12.0)
   jquery-rails (~> 4.4)
-  json (~> 2)
+  json (~> 2.6.3)
   json-schema!
   jwt (~> 1.5.2)
   kt-paperclip (~> 7.2)
