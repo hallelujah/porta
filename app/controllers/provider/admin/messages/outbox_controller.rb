@@ -5,6 +5,8 @@ class Provider::Admin::Messages::OutboxController < FrontendController
 
   delegate :messages, to: :current_account
 
+  helper_method :toolbar_props
+
   def new
     activate_menu :buyers, :messages, :inbox
     @message = build_message({})
@@ -15,7 +17,7 @@ class Provider::Admin::Messages::OutboxController < FrontendController
     @message.hide!
 
     flash[:notice] = 'Message was deleted.'
-    redirect_to action: :index
+    redirect_to request.referer
   end
 
   def create
@@ -96,6 +98,20 @@ class Provider::Admin::Messages::OutboxController < FrontendController
   end
 
   def pagination_params
-    { page: params.permit(:page)[:page] }
+    { page: params.permit(:page)[:page], per_page: params.permit(:per_page)[:per_page] }
+  end
+
+  def toolbar_props
+    {
+      totalEntries: @messages.total_entries,
+      pageEntries: @messages.length,
+      newMessageHref: new_provider_admin_messages_outbox_path,
+      bulkActions: [{
+        name: 'Delete',
+        url: new_provider_admin_messages_bulk_trash_path(scope: :messages),
+        title: 'Delete selected messages',
+        variant: 'danger'
+      }]
+    }
   end
 end
