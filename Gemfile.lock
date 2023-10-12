@@ -39,12 +39,10 @@ GIT
 
 GIT
   remote: https://github.com/3scale/sidekiq-batch.git
-  revision: da79c4332f9db464db9c09a7bca30f4a2631520c
+  revision: f1c56d0b8445fd3eb337614aedba1752aa19938e
   branch: redis-client
   specs:
     sidekiq-batch (0.1.9)
-      hiredis-client (~> 0.17.0)
-      redis (~> 5)
       sidekiq (~> 7)
 
 GIT
