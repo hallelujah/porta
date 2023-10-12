@@ -409,16 +409,35 @@ en:
         form:
           submit_button_label: 'Update Account'
           submit_button_next_step_label: 'Save and continue with payment details'
+      keys:
+        create:
+          success: A new key has been added.
+        destroy:
+          error: At least one application key is required.
+          success: The key has been removed.
+        update:
+          success: User key has been updated.
 
       authentication_providers:
         form:
           automatically_approve_accounts_hint_html: "<br /> Even if the <a href=%{link}>account approval settings</a> say otherwise"
           submit_button_label: 'Create Authentication provider'
       messages:
+        bulk:
+          trash:
+            success: Messages moved into the trash
         no_metrics: "You have no metrics"
         no_methods: "You have no methods"
-        no_received_messages: "You have no messages."
-        no_messages: "You have sent no messages."
+        inbox:
+          index:
+            empty_state:
+              title: "Nothing to see here"
+              body: "Your inbox is empty, there are no new messages."
+        outbox:
+          index:
+            empty_state:
+              title: "Nothing to see here"
+              body: "Your outbox is empty, there are no new sent messages."
       cms:
         builtin_legal_terms:
           info:
@@ -479,6 +498,49 @@ en:
         reject: 'rejected'
         suspend: 'suspended'
         resume: 'resumed'
+      bulk:
+        send_emails:
+          success:
+            one: The email was sent successfully.
+            other: Successfully sent %{count} emails.
+        change_states:
+          success:
+            one: The account's state was changed successfully.
+            other: Successfully changed the state of %{count} accounts.
+        change_plans:
+          success:
+            one: The account's plan was changed successfully.
+            other: Successfully changed the plan of %{count} accounts.
+
+    applications:
+      bulk:
+        send_emails:
+          success:
+            one: The email was sent successfully.
+            other: Successfully sent %{count} emails.
+        change_states:
+          success:
+            one: The application's state was changed successfully.
+            other: Successfully changed the state of %{count} applications.
+        change_plans:
+          success:
+            one: The application's plan was changed successfully.
+            other: Successfully changed the plan of %{count} applications.
+
+    service_contracts:
+      bulk:
+        send_emails:
+          success:
+            one: The email was sent successfully.
+            other: Successfully sent %{count} emails.
+        change_states:
+          success:
+            one: The subscription's state was changed successfully.
+            other: Successfully changed the state of %{count} subscriptions.
+        change_plans:
+          success:
+            one: The subscription's plan was changed successfully.
+            other: Successfully changed the plan of %{count} subscriptions.
 
   sites:
     spam_protections:
@@ -1237,7 +1299,8 @@ en:
 
       cinstance:
         intentions: "Please describe briefly your intentions of use of this service"
-        user_key: "Only alphanumeric characters [0-9, a-z, A-Z], hyphen-minus (-), no spaces and 256 characters at most."
+        user_key: "Only alphanumeric characters [0-9, a-z, A-Z], hyphen-minus (-) and underscore, no spaces and up to 256 characters."
+        key: "Only alphanumeric characters [0-9, a-z, A-Z], hyphen-minus (-) and underscore, no spaces and between 5 and 255 characters."
 
       cms:
         page:

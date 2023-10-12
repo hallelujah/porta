@@ -57,14 +57,23 @@ module HtmlSelectorsHelper
     when /the body/
       "html > body"
 
-    when 'fancybox', 'colorbox'
+    when 'fancybox', 'colorbox', 'the modal'
       '#cboxContent' # '#fancybox-content'
 
     when "fancybox header"
       '#cboxContent h2'
 
+    when 'the bulk operations'
+      bulk_operations_selector
+
     when /^section (.*)$/
       [:xpath, "//button[text() = '#{$1}']/following-sibling::section[1]"]
+
+    #
+    # Application
+    #
+    when 'the API Credentials card'
+      'div#application_keys'
 
     else
       raise "Can't find mapping from \"#{scope}\" to a selector.\n" \

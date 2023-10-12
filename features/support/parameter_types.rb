@@ -163,8 +163,8 @@ ParameterType(
 ParameterType(
   name: 'application',
   type: Cinstance,
-  regexp: /application "([^"]*)"/,
-  transformer: ->(name) { Cinstance.find_by!(name: name) }
+  regexp: /application "([^"]*)"|the application/,
+  transformer: ->(name) { name.present? ? Cinstance.find_by!(name: name) : @application || @cinstance }
 )
 
 ParameterType(
@@ -412,7 +412,7 @@ ParameterType(
 
 ParameterType(
   name: 'has',
-  regexp: /has|has already|has not|has not yet|don't have/,
+  regexp: /has|has already|does not have|has not|has not yet|don't have/,
   transformer: ->(value) { ['has', 'has already'].include?(value) }
 )
 

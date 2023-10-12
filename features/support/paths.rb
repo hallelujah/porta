@@ -78,14 +78,21 @@ World(Module.new do
     when "the provider inbox page"
       provider_admin_messages_root_path
 
+    when "the provider sent messages page"
+      provider_admin_messages_outbox_index_path
+
+    when /^the provider page of message with subject "([^"]*)"$/
+      message = @provider.sent_messages.find { |m| m.subject = $1 }
+      provider_admin_messages_outbox_path(message)
+
+    when "the outbox compose page"
+      new_provider_admin_messages_outbox_path
+
     #
     # Messages - buyer side
     #
     when "the compose page"
       new_admin_messages_outbox_path
-
-    when "the outbox compose page"
-      new_provider_admin_messages_outbox_path
 
     when "the inbox page"
       admin_messages_root_path
@@ -318,6 +325,7 @@ World(Module.new do
       admin_buyer_services_path
 
     when 'the service subscriptions list for provider',
+         'the service contracts admin page',
          'the subscriptions admin page',
          /^the subscriptions admin page with (\d+) records? per page$/
       admin_buyers_service_contracts_path(:per_page => $1)
@@ -368,13 +376,6 @@ World(Module.new do
       edit_provider_admin_application_path(application)
 
     #
-    # Service contracts (provider side)
-    #
-    when 'the service contracts admin page'
-      admin_buyers_service_contracts_path
-
-
-    #
     # Buyer management
     #
     when 'the buyer accounts page', 'the accounts admin page',
@@ -385,9 +386,8 @@ World(Module.new do
     when 'the new buyer account page'
       new_admin_buyers_account_path
 
-    when /^the buyer account page for "([^"]*)"$/
-      admin_buyers_account_path(Account.find_by_org_name!($1))
-    when /^the buyer account "([^"]*)" page$/
+    when /^the buyer account page for "([^"]*)"$/,
+         /^the buyer account "([^"]*)" page$/
       admin_buyers_account_path(Account.find_by_org_name!($1))
 
     when /^the buyer account edit page for "([^"]*)"$/

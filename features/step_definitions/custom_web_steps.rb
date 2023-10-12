@@ -38,7 +38,7 @@ Then /^I should see (?:|the )link "([^"]*)" containing "([^"]*)" in the URL$/ do
   assert page.has_css?('a', :text => label, &href_contain_params)
 end
 
-Then /^I should see (the |)link "([^"]*)"$/ do |_, label|
+Then /^(?:I )?should see (the |)link "([^"]*)"$/ do |_, label|
   assert page.has_css?('a', :text => label)
 end
 
@@ -175,11 +175,6 @@ toggled_input_selector = '[data-behavior="toggle-inputs"] legend'
 
 And(/^I toggle "([^"]*)"$/) do |name|
   find(toggled_input_selector, text: /#{name}/i).click
-end
-
-When(/^I enter the admin password in "([^"]+)"$/) do |field|
-  step %(I fill in "#{field}" with "supersecret")
-  step %(I press "Confirm Password")
 end
 
 def assert_select_not_inclues_option(label, text)
